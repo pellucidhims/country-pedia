@@ -1,0 +1,37 @@
+.buttonClass {
+    border-radius: 5px;
+    padding: 0.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    border: 1px solid;
+}
+
+.buttonClass:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5);
+}
+
+.primary {
+    background-color:  rgb(247, 99, 6);
+    border-color: #e75900 ;
+    color: #ffffff;
+}
+
+.secondary {
+    background-color:  #6c757d;
+    border-color:  #6c757d;
+    color: #ffffff;
+}
+
+.tertiary {
+    background-color: #f8f9fa;
+    border-color:  #6c757d;
+    color: #495057;
+}
+
+.disabled {
+    background-color: #6c757d;
+    border-color:  #6c757d;
+    color: #adb5bd;
+    cursor: not-allowed;
+}

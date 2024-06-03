@@ -1,0 +1,71 @@
+.countryListRoot {
+  list-style: none;
+  padding: 0px;
+  margin: 0px;
+  text-align: center;
+  max-height: 100vh;
+  overflow-y: scroll;
+}
+
+.countryItemRoot {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  transition: height 0.5s ease, width 0.5s ease;
+  margin: 1rem;
+  box-sizing: border-box;
+  box-shadow: -1px 3px 8px 0px gray;
+  border-radius: 5px;
+  padding: 0.5rem;
+}
+
+.expanded {
+  flex-direction: column;
+  transition: all 0.5s ease;
+}
+
+.countryItemImage {
+    transition: height 0.5s ease, width 0.5s ease;
+}
+
+.countryItemDetails {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.2rem;
+  min-width: 20vw;
+  max-width: 50vw;
+  flex-wrap: wrap;
+  text-align: center;
+}
+
+.countryItemName {
+  font-weight: 700;
+}
+
+.additionalDetailsRoot {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.displayContinerWithAnimation {
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.hideListItem {
+    opacity: 0;
+}

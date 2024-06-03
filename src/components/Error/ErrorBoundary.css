@@ -1,0 +1,49 @@
+.errorBoundary {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    margin: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .errorImage {
+    max-width: 80%;
+    height: auto;
+    margin-bottom: 20px;
+  }
+
+  .errorMessageInfo {
+    margin-bottom: 1rem;
+  }
+  
+  .retryButton {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .retryButton:hover {
+    background-color: #0056b3;
+  }
+  
+  @media (max-width: 600px) {
+    .errorBoundary {
+      padding: 10px;
+      margin: 10px;
+    }
+  
+    .retryButton {
+      padding: 8px 16px;
+    }
+  }
+  

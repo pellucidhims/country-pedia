@@ -1,3 +1,8 @@
+
+html {
+  scroll-behavior: smooth;
+}
+
 .App {
   text-align: center;
 }
@@ -35,4 +40,79 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+h3  {
+ margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+.root {
+  display: flex;
+  flex-direction: column;
+}
+
+.contentRoot {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.loaderRoot {
+  text-align: center;
+  margin: 1rem;
+}
+
+.error {
+  text-align: center;
+  margin: 1rem;
+  color: red;
+  font-weight: bold;
+}
+
+.virtualized-list1 {
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.country-item1 {
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  transition: height 0.3s ease;
+}
+
+.country-summary1 {
+  display: flex;
+  align-items: center;
+}
+
+.country-summary1 img {
+  margin-right: 10px;
+}
+
+.country-details1 {
+  margin-top: 10px;
+}
+
+.filtersRoot {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 9;
 }
