@@ -4,9 +4,9 @@ Welcome to **Country-Pedia**, a React-based web application that provides a comp
 
 ## Table of Contents
 
-- [Demo](##demo)
-- [Features](##features)
-- [Installation](##installation)
+- [Demo](#demo)
+- [Features](#features)
+- [Installation](#installation)
 - [Technologies Used](#technologies-used)
 - [API Reference](#api-reference)
 - [License](#license)
