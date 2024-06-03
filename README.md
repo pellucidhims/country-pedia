@@ -1,6 +1,62 @@
+# Country-Pedia
+
+Welcome to **Country-Pedia**, a React-based web application that provides a comprehensive list of countries using the [REST Countries API](http://restcountries.com/v3.1/all). Users can search for countries based on various criteria such as name, capital, and currency. Additionally, the app supports sorting countries by name.
+
+## Table of Contents
+
+- [Demo](#demo)
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Technologies Used](#technologies-used)
+- [API Reference](#api-reference)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
+
+## Demo
+
+You can view a live demo of the application [here](#).
+
+## Features
+
+- **Search Functionality**: Search for countries by name, capital, currency, etc.
+- **Sorting**: Sort countries by name in ascending or descending order.
+- **Detailed Information**: View detailed information about each country, including population, region, and capital.
+
+## Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/country-pedia.git
+   cd country-pedia
+   npm install
+   npm start
+
+# Technologies Used
+- Javascript (ES6)
+- React: Frontend framework for building user interfaces.
+- Jest & React Testing Library: Testing frameworks for unit and integration tests.
+- CSS Modules: Scoped and modular CSS for styling components.
+
+# API Reference
+This application uses the REST Countries API to fetch country data. The main endpoints used are:
+
+Get All Countries: GET /v3.1/all
+For more details on the API, visit the [REST Countries API documentation](https://restcountries.com/).
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+# License
+This project is licensed under the MIT License. See the LICENSE file for details.
+
+# Contact
+If you have any questions or feedback, feel free to reach out:
+
+- GitHub Issues: [https://github.com/yourusername/country-pedia/issues](https://github.com/pellucidhims/country-pedia/issues)
+- Email: sharmahimanshu1494@gmail.com
 
 ## Available Scripts
 
