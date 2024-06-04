@@ -69,16 +69,17 @@ function CountryList({ countries = [] }) {
     <AutoSizer>
       {({ height, width }) => {
         return (
-        <List
-          width={width}
-          height={height}
-          deferredMeasurementCache={cache.current}
-          rowHeight={cache.current.rowHeight}
-          rowRenderer={rowRenderer}
-          rowCount={countries.length}
-          overscanRowCount={3}
-        />
-      )}}
+          <List
+            width={width}
+            height={height}
+            deferredMeasurementCache={cache.current}
+            rowHeight={cache.current.rowHeight}
+            rowRenderer={rowRenderer}
+            rowCount={countries.length}
+            overscanRowCount={3}
+          />
+        );
+      }}
     </AutoSizer>
   );
 }

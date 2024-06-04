@@ -16,7 +16,7 @@ function Sort({
 
   return (
     <Button variant="tertiary" onClick={handleClick}>
-      {`Sort countries by name (${sortOrder === 1? 'Descending' : 'Ascending'})`}
+      {`Sort by name (${sortOrder === 1? '⇧' : '⇩'})`}
     </Button>
   );
 }

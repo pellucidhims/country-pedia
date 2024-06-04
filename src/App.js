@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import CountryList from "./components/CountryList/CountryList";
 import Search from "./components/Search/Search";
 
@@ -16,63 +16,113 @@ import Sort from "./components/Sort/Sort";
 function App() {
   const [countries, setCountries] = useState([]);
   const [filteredCountries, setFilteredCountries] = useState([]);
-  const { isFetching, error, data, fetchData } = useFetch(
-    GET_ALL_COUNTRIES_URL
-  );
+  const {
+    isFetching,
+    error,
+    data: allData,
+    fetchData,
+  } = useFetch(GET_ALL_COUNTRIES_URL);
   const [currentSearchString, setCurrentSearchString] = useState("");
   const [isSearching, setIsSearching] = useState(false);
   const [searchError, setSearchError] = useState("");
+  const controllerRef = useRef(null);
 
   const { getFromCache, storeToCache } = useCache(100);
 
-  const searchOnline = useCallback(
-    (searchTerm) => {
-      setIsSearching(true);
-      getSearchesFromWeb(searchTerm)
-        .then((data) => {
-          if (data.length) {
-            storeToCache(searchTerm.toLowerCase(), data[0]);
-            setFilteredCountries([...data[0]]);
-          } else {
-            setFilteredCountries([]);
-          }
-        })
-        .catch((error) => {
-          setSearchError(error);
-        })
-        .finally(() => {
+  const checkAndCancelOnlineSearch = useCallback(() => {
+    if (controllerRef.current) {
+      controllerRef.current.abort();
+    }
+    setIsSearching(false);
+  }, []);
+
+  const performOnlineSearch = useCallback(
+    async (searchTerm, signal) => {
+      try {
+        const onlineSearchResult = await getSearchesFromWeb(searchTerm, signal);
+        if (onlineSearchResult?.length) {
+          storeToCache(searchTerm.toLowerCase(), onlineSearchResult);
+          setFilteredCountries([...onlineSearchResult]);
+        } else {
+          setFilteredCountries([]);
+        }
+        setIsSearching(false);
+      } catch (error) {
+        if (error.name !== "AbortError") {
+          setSearchError(
+            error?.message ||
+              `Something went wrong while getting search results. Please try again`
+          );
           setIsSearching(false);
-        });
+        }
+      }
     },
     [storeToCache]
   );
 
-  // const wrapSearchOnline = useCallback((searchTerm) => searchOnline(searchTerm), [searchOnline]);
+  useEffect(() => {
+    if (!countries.length) {
+      setCountries(allData);
+      setFilteredCountries(allData);
+    }
+  }, [allData, countries.length]);
+
+  const searchOnline = useCallback(
+    (searchTerm) => {
+      checkAndCancelOnlineSearch();
+
+      controllerRef.current = new AbortController();
+      const signal = controllerRef.current.signal;
+
+      setIsSearching(true);
+      performOnlineSearch(searchTerm, signal);
+    },
+    [checkAndCancelOnlineSearch, performOnlineSearch]
+  );
+
+  useEffect(() => {
+    checkAndCancelOnlineSearch();
+    if (!currentSearchString) {
+      setFilteredCountries(countries);
+      return;
+    }
+
+    const searchTerm = currentSearchString;
+
+    const filtered = countries.filter(
+      (country) =>
+        country?.name?.official
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase()) ||
+        country?.name?.common.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    if (!filtered.length && !!searchTerm) {
+      const cachedValueForSearch = getFromCache(searchTerm.toLowerCase());
+      if (!cachedValueForSearch) {
+        searchOnline(searchTerm);
+      } else {
+        setFilteredCountries(cachedValueForSearch);
+      }
+    } else {
+      setFilteredCountries(filtered);
+    }
+  }, [
+    checkAndCancelOnlineSearch,
+    countries,
+    currentSearchString,
+    getFromCache,
+    searchOnline,
+  ]);
 
   const handleSearch = useCallback(
     (searchTerm) => {
-      setCurrentSearchString(searchTerm);
-      setSearchError("");
       searchTerm = searchTerm?.trim();
-      const filtered = countries.filter(
-        (country) =>
-          country?.name?.official
-            .toLowerCase()
-            .includes(searchTerm.toLowerCase()) ||
-          country?.name?.common.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-      if (!filtered.length && !!searchTerm) {
-        const cachedValueForSearch = getFromCache(searchTerm.toLowerCase());
-        if (!cachedValueForSearch) {
-          searchOnline(searchTerm);
-        } else {
-          setFilteredCountries(cachedValueForSearch);
-        }
-      } else {
-        setFilteredCountries(filtered);
-      }
+      if (currentSearchString === searchTerm) return;
+      setSearchError("");
+      setCurrentSearchString(searchTerm);
     },
-    [countries, getFromCache, searchOnline]
+    [currentSearchString]
   );
 
   const handleSort = useCallback((order) => {
@@ -83,13 +133,9 @@ function App() {
     );
   }, []);
 
-  if (data && !countries.length) {
-    setCountries(data);
-    setFilteredCountries(data);
-  }
   return (
     <ErrorBoundary
-      errorMessage="This should not have happened. Please retry or contact support cca@knowyourcountry.com"
+      errorMessage="This should not have happened. Please retry or contact support cca@countrypedia.com"
       showImage
     >
       <div className="root">
@@ -105,7 +151,7 @@ function App() {
           {isFetching || isSearching ? (
             <div className="loaderRoot">
               <Loader
-                message="Fetching countries, please wait..."
+                message={`${isFetching ? 'Fetching countries' : 'Searching for results'}, please wait...`}
                 size="40px"
               />
             </div>

@@ -41,7 +41,6 @@ export const useCountryDetailsCache = () => {
           return countryDetails;
         })
         .catch((error) => {
-          console.error("Failed to fetch country details:", error);
           setIsFetching((prev) => ({ ...prev, [countryName]: false }));
           delete pendingRequests.current[countryName];
           setError((prev) => ({
@@ -62,7 +61,7 @@ export const useCountryDetailsCache = () => {
 export const useFetch = (url, options = {}) => {
   const [isFetching, setIsFetching] = useState(false);
   const [error, setError] = useState(null);
-  const [data, setData] = useState(null);
+  const [data, setData] = useState([]);
 
   const fetchData = useCallback(async () => {
     setIsFetching(true);
@@ -75,7 +74,6 @@ export const useFetch = (url, options = {}) => {
       const data = await response.json();
       setData(data);
     } catch (error) {
-      console.log('ERRROROROROR: ', error);
       setError(`Something went wrong while getting details. Please try again.`);
     } finally {
       setIsFetching(false);
