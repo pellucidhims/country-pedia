@@ -16,6 +16,7 @@ import "./CountryList.css";
 
 function CountryList({ countries = [] }) {
   const [expandedItems, setExpandedItems] = useState({});
+  const { isFetching, fetchCountryDetails, error } = useCountryDetailsCache();
   const cache = useRef(
     new CellMeasurerCache({
       defaultHeight: 100,
@@ -52,6 +53,9 @@ function CountryList({ countries = [] }) {
                 isExpanded={isExpanded}
                 onToggle={handleToggle(country?.name?.official)}
                 measure={measure}
+                isFetching={isFetching}
+                fetchCountryDetails={fetchCountryDetails}
+                error={error}
               />
             </div>
           );
@@ -83,8 +87,8 @@ function CountryList({ countries = [] }) {
   );
 }
 
-function CountryListItem({ country, measure, isExpanded, onToggle }) {
-  const { isFetching, fetchCountryDetails, error } = useCountryDetailsCache();
+function CountryListItem({ country, measure, isExpanded, onToggle, isFetching, error, fetchCountryDetails}) {
+  
   const [additionalDetails, setAdditionalDetails] = useState(null);
   const itemRef = useRef(null);
   const isMounted = useIsMounted();
