@@ -13,6 +13,7 @@ import {
   useIsMounted,
   useCache,
 } from "../hooks/customHooks";
+import { mockCountries } from "../mocks/mockData";
 
 jest.mock("react-virtualized", () => {
   const originalModule = jest.requireActual("react-virtualized");
@@ -23,7 +24,7 @@ jest.mock("react-virtualized", () => {
 });
 
 jest.mock("../utils/helper", () => ({
-  ...jest.requireActual('../utils/helper'),
+  ...jest.requireActual("../utils/helper"),
   getSearchesFromWeb: jest.fn(),
 }));
 
@@ -35,23 +36,6 @@ jest.mock("../hooks/customHooks", () => ({
   useIsMounted: jest.fn(),
   useCache: jest.fn(),
 }));
-
-const mockCountries = [
-  {
-    name: { official: "India", common: "India" },
-    population: 1393409038,
-    region: "Asia",
-    capital: ["New Delhi"],
-    flags: { png: "flag-url" },
-  },
-  {
-    name: { official: "United States of America", common: "USA" },
-    population: 331002651,
-    region: "Americas",
-    capital: ["Washington D.C."],
-    flags: { png: "flag-url" },
-  },
-];
 
 beforeEach(() => {
   useFetch.mockReturnValue({
@@ -113,7 +97,7 @@ test("handles search input and displays filtered results", async () => {
   );
 
   await act(async () => {
-    fireEvent.change(screen.getByTestId('search'), {
+    fireEvent.change(screen.getByTestId("search"), {
       target: { value: "India" },
     });
   });
@@ -124,7 +108,7 @@ test("handles search input and displays filtered results", async () => {
 });
 
 test("displays error message on search failure", async () => {
-  getSearchesFromWeb.mockRejectedValueOnce(new Error('Search failed'));
+  getSearchesFromWeb.mockRejectedValueOnce(new Error("Search failed"));
 
   await act(async () => {
     render(<App />);
@@ -135,15 +119,19 @@ test("displays error message on search failure", async () => {
   );
 
   await act(async () => {
-    fireEvent.change(screen.getByTestId('search'), {
+    fireEvent.change(screen.getByTestId("search"), {
       target: { value: "InvalidSearch" },
     });
   });
   await waitFor(() => {
     screen.debug(Infinity);
-  })
+  });
   await waitFor(() =>
-    expect(screen.getByText(/Some error happened while performing search. Please retry./i)).toBeInTheDocument()
+    expect(
+      screen.getByText(
+        /Some error happened while performing search. Please retry./i
+      )
+    ).toBeInTheDocument()
   );
 });
 
@@ -206,11 +194,11 @@ test("useFetch hook fetches data", async () => {
 
   await waitFor(() => {
     expect(screen.getByText(/Loading.../i)).toBeInTheDocument();
-  }); 
+  });
 
   await waitFor(() => expect(fetch).toHaveBeenCalledTimes(1));
 
   await waitFor(() => {
     expect(screen.getByText(/India/i)).toBeInTheDocument();
-  }); 
+  });
 });

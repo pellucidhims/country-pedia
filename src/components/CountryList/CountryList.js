@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-// import VirtualizedList from "../VirtualizedList";
 import {
   List,
   CellMeasurer,
@@ -10,10 +9,10 @@ import { useCountryDetailsCache, useIsMounted } from "../../hooks/customHooks";
 import { checkForAvailableValues, formatPopulation } from "../../utils/helper";
 import Loader from "../Loader/Loader";
 import Button from "../Button/Button";
-
-import "./CountryList.css";
 import NoDataSection from "../NoDataSection/NoDataSection";
 import Error from "../Error/Error";
+
+import "./CountryList.css";
 
 function CountryList({ countries = [] }) {
   const [expandedItems, setExpandedItems] = useState({});

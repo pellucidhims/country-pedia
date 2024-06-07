@@ -1,6 +1,7 @@
 import React from "react";
-import "./Error.css";
 import Button from "../Button/Button";
+
+import "./Error.css";
 
 function Error({
   errorMessage,
